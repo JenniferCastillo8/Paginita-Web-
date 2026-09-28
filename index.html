@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi papoyo 🤍 - NSQK Vibe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #020205;
+            color: #f1f1f5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Pantalla de carga estilo reproductor / vinilo */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020205;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s ease;
+        }
+
+        #loader h1 {
+            color: #ff3366;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .vinyl-loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 51, 102, 0.2);
+            border-top: 3px solid #ff3366;
+            border-radius: 50%;
+            animation: spinVinyl 1.2s linear infinite;
+        }
+
+        @keyframes spinVinyl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Contenedor principal tipo tarjeta móvil */
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            height: 100vh;
+            max-height: 750px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 35px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #12050c 0%, #020205 100%);
+            border: 1px solid rgba(255, 51, 102, 0.15);
+            border-radius: 24px;
+            box-shadow: 0 0 40px rgba(255, 51, 102, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.02);
+        }
+
+        /* Estrellas y corazones flotantes de fondo */
+        .effects-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+            border-radius: 24px;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            font-size: 14px;
+            animation: floatUp 6s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.6) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-800px) scale(1.1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: #ff3366;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        h2.title {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        /* Sección visual minimalista NSQK */
+        .nsqk-card-art {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            border-radius: 18px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .album-icon {
+            font-size: 2.2rem;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 51, 102, 0.4)); }
+            100% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(255, 51, 102, 0.9)); }
+        }
+
+        .artist-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: #ff99bb;
+        }
+
+        /* Tarjeta de frases estilo letra de canción */
+        .phrase-container {
+            background: rgba(20, 5, 12, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px 20px;
+            width: 100%;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .phrase {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #f7f7f9;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .footer-note {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: #9999ac;
+            letter-spacing: 1px;
+        }
+
+        .footer-note span {
+            color: #ff3366;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla de Carga -->
+    <div id="loader">
+        <h1>// REPRODUCIENDO_NSQK.wav</h1>
+        <div class="vinyl-loader"></div>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="container">
+        <div class="effects-bg" id="effectsContainer"></div>
+
+        <div class="content">
+            <div>
+                <div class="header-tag">SPECIAL DEDICATION</div>
+                <h2 class="title">Para mi persona favorita 🤍</h2>
+            </div>
+
+            <!-- Arte / Estética NSQK -->
+            <div class="nsqk-card-art">
+                <div class="album-icon">💽</div>
+                <div class="artist-name">NSQK VIBES</div>
+                <div style="font-size: 0.75rem; color: #aaa;">"Disfruto cada segundo a tu lado"</div>
+            </div>
+
+            <!-- Caja de Frases e Inspiración Musical -->
+            <div class="phrase-container">
+                <div class="phrase" id="phraseBox">Cargando frecuencias...</div>
+            </div>
+
+            <div class="footer-note">
+                Te amo con todo mi ser, <span>papoyo</span> 🌙
+            </div>
+        </div>
+    </div>
+
+    <!-- Música de fondo: "Sopa de letritas" de NSQK -->
+    <iframe src="https://www.youtube.com/embed/g09Wn3qj19M?autoplay=1&loop=1&playlist=g09Wn3qj19M" 
+            allow="autoplay" style="display:none;" id="audioFrame"></iframe>
+
+    <script>
+        // Ocultar pantalla de carga
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 1000);
+        }, 2500);
+
+        // Frases románticas inspiradas en la vibra de NSQK y el amor hacia el "papoyo"
+        const phrases = [
+            "Eres esa canción que no me canso de repetir en la cabeza.",
+            "Me haces sentir que todo encaja perfecto, como en un buen beat.",
+            "Disfruto tanto tu compañía; cada instante contigo vale por mil.",
+            "Eres muy importante para mí, más de lo que las palabras alcanzan a decir.",
+            "Te amo papoyo",
+            "Contigo los días grises se sienten como un atardecer increíble.",
+            "No importa el lugar ni el universo, siempre te elegiría a ti.",
+            "Te amo papoyo"
+        ];
+
+        let currentIndex = 0;
+        const phraseBox = document.getElementById('phraseBox');
+
+        function updatePhrase() {
+            phraseBox.style.opacity = 0;
+            phraseBox.style.transform = 'translateY(6px)';
+            setTimeout(() => {
+                phraseBox.textContent = phrases[currentIndex];
+                phraseBox.style.opacity = 1;
+                phraseBox.style.transform = 'translateY(0)';
+                currentIndex = (currentIndex + 1) % phrases.length;
+            }, 300);
+        }
+
+        // Cambiar frase exactamente cada 5 segundos
+        setInterval(updatePhrase, 5000);
+        updatePhrase();
+
+        // Generar partículas flotantes (corazones y destellos)
+        const effectsContainer = document.getElementById('effectsContainer');
+        const symbols = ['❤️', '✨', '🤍', '🎧'];
+
+        fnCreateParticle = function() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            particle.style.left = Math.random() * 90 + 5 + '%';
+            particle.style.animationDuration = (4 + Math.random() * 3) + 's';
+            particle.style.fontSize = (12 + Math.random() * 12) + 'px';
+            effectsContainer.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 7000);
+        }
+
+        setInterval(fnCreateParticle, 400);
+    </script>
+</body>
+</html>
